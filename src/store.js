@@ -182,7 +182,9 @@ export default new Vuex.Store({
       },
       getUserById ({ commit }) {
           let authorId = (jwt.decode(localStorage.getItem('token')))._id
+          
           let url = `http://localhost:3000/users/findUser/${authorId}`
+          
           axios({
             method: 'get',
             url: url
@@ -194,6 +196,29 @@ export default new Vuex.Store({
           .catch(function (err) {
               console.log(err)
           })
+      },
+      deleteArticleById ({ commit, dispatch }, payload) {
+        console.log('delete article')
+
+        let articleId = payload
+
+        let url = `http://localhost:3000/articles`
+        
+        axios({
+          method: 'delete',
+          url: url,
+          data : {
+            id: articleId
+          }
+        })
+        .then(function (response) {
+          console.log(response.data)
+          dispatch('getArticlesByAuthor')
+          commit('emptyCommit')
+        })
+        .catch(function (err) {
+            console.log(err)
+        })
       }
   }
 })
