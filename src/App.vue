@@ -6,9 +6,13 @@
     <div class="container-fluid">
         <div class="row py-2 justify-content-center">
               <div id="nav">
+                <v-spacer></v-spacer>
                 <router-link to="/">Home</router-link> |
-                <router-link to="/about">About</router-link> |
-                <router-link to="/login">Login</router-link>
+                <router-link v-if="isToken" to="/about">About</router-link> |
+                <router-link v-if="!isToken" to="/login">Login</router-link>
+                <router-link v-if="isToken" to="/admin">Administrator</router-link>
+                <v-spacer></v-spacer>
+                <v-btn flat class="btn-logout" v-if="isToken" v-on:click="logout">Logout</v-btn>
               </div>
         </div>
     </div>
@@ -20,12 +24,38 @@
 import Home from '@/views/Home.vue'
 import About from '@/views/About.vue'
 import Login from '@/views/Login.vue'
+// import { mapState, mapActions } from 'vuex'
 
 export default {
+  data: function() {
+    return {
+        userToken : false
+    }
+  },
   components: {
     Home,
     About,
     Login
+  },
+  methods: {
+      logout: function () {
+        this.$router.push('/')
+        localStorage.removeItem('token')
+      }
+  },
+  created () {
+    if (localStorage.hasOwnProperty('token')) {
+      this.userToken = true
+      console.log('masih ada token')
+    } else {
+      this.userToken = false
+      console.log('ga ada token')
+    }
+  }, 
+  computed: {
+    isToken: function () {
+        return this.userToken
+    }
   }
 }
 </script>
@@ -56,7 +86,17 @@ export default {
     font-size: 17px;
 }
 
+#nav a {
+  text-decoration: none;
+  color:black;
+}
+
+#nav a:hover {
+  color: #1E88E5;
+}
+
 #nav a.router-link-exact-active {
     color: #42b983;
+    text-decoration: none;
 }
 </style>

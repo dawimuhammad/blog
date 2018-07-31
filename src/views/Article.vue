@@ -1,25 +1,25 @@
 <template>
-  <div class="about">
+  <div class="article">
     <v-container fluid class="article-id-fluid">
         <v-layout row>
           <!-- <v-flex xs12 sm6 offset-sm3 style="border: 1px solid green"> -->
           <v-flex xs12 sm6 offset-sm3>
             <v-card-title primary-title>
-                <div style="text-align: left">
-                  <div class="display-2">{{ articleById.title }}</div>
-                  <div class="title font-weight-light">{{ articleById.author }}</div>
-                  <div class="subheading font-weight-light">{{ articleById.time }}</div>
-                </div>
-              </v-card-title>
+              <div style="text-align: left">
+                <div class="py-2 display-2" style="text-align: center">{{ articleById.title }}</div>
+                <div class="py-2 title font-weight-light">{{ articleById.author.name }}</div>
+                <div class="py-2 subheading font-weight-light">{{ articleById.time }}</div>
+              </div>
+            </v-card-title>
             
             <v-card flat>
               <v-card-media :src="articleById.imageUrl" height="500px"></v-card-media>
 
-              <v-card-title>
-                <div>
-                  <p class="subheading font-weight-light article-content">{{ articleById.content }}</p>
-                </div>
-              </v-card-title>
+            <v-card-title>
+              <div>
+                <p class="subheading font-weight-light article-content">{{ articleById.content }}</p>
+              </div>
+            </v-card-title>
 
             </v-card>
           </v-flex>

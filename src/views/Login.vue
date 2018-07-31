@@ -1,69 +1,156 @@
 <template>
     <v-container>
         <v-layout row wrap>
-            <v-flex md-6 style="border: 1px solid black; height: 500px">
+            <v-flex px-5 md-6>
                 <h2>Sign In</h2>
-                <v-container>
+                <v-container class="blog-form-input mt-5">
                     <v-form>
-                        <v-text-field outline v-model="signinName" :counter="10" label="Name" required></v-text-field>
                         <v-text-field outline v-model="signinEmail" label="E-mail" required></v-text-field>
                         
                         <v-text-field
                             v-model="signinPassword"
                             :append-icon="show1 ? 'visibility_off' : 'visibility'"
-                            :rules="[rules.required, rules.min]"
+                            :rules="[rules.required]"
                             :type="show1 ? 'text' : 'password'"
-                            name="input-10-1"
-                            label="Normal with hint text"
+                            label="Password"
                             hint="At least 8 characters"
                             counter
+                            @click:append="show1 = !show1" >
+                        </v-text-field>
+                    </v-form>
+                </v-container>
+                <v-container>
+                    <v-btn large round color="light-blue darken-1" class="white--text" v-on:click="loginUser">Sign in</v-btn>
+                </v-container>
+            </v-flex>
+
+            <v-flex px-5 md-6>
+                <h2>Register</h2>
+                <v-container class="blog-form-input mt-5">
+                    <v-form>
+                        <v-text-field outline v-model="signupName" :counter="10" label="Name" required></v-text-field>
+                        <v-text-field outline v-model="signupEmail" label="E-mail" required></v-text-field>
+                        
+                        <v-text-field
+                            v-model="signupPassword"
+                            :append-icon="show1 ? 'visibility_off' : 'visibility'"
+                            :rules="[rules.required]"
+                            :type="show1 ? 'text' : 'password'"
+                            label="Create Password"
                             @click:append="show1 = !show1" >
                         </v-text-field>
 
                     </v-form>
                 </v-container>
+                <v-container>
+                    <v-btn large round color="teal darken-1" class="white--text" v-on:click="registerUser">Sign Up</v-btn>
+                </v-container>
             </v-flex>
 
-            <v-flex md-6 style="border: 1px solid black; height: 500px">
-                <h2>Login</h2>
-                <v-form>
-                    <v-text-field
-                    v-model="signupEmail"
-                    :counter="10"
-                    label="Name"
-                    required
-                    ></v-text-field>
-                    <v-text-field
-                    v-model="signupPassword"
-                    label="E-mail"
-                    required
-                    ></v-text-field>
-                </v-form>
-            </v-flex>
         </v-layout>
     </v-container>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import swal from 'sweetalert2'
+
 export default {
     data () {
       return {
         show1: false,
-        signinName: '',
         signinEmail: '',
         signinPassword: '',
+        signupName: '',
         signupEmail: '',
         signupPassword: '',
         rules: {
-          required: value => !!value || 'Required.',
-          min: v => v.length >= 8 || 'Min 8 characters',
-          emailMatch: () => ('The email and password you entered don\'t match')
+          required: value => !!value || 'Required.'
         }
       }
+    },
+    created () {
+        if (localStorage.hasOwnProperty('token')) {
+            console.log('ada token, ga boleh masuk login form')
+            this.$router.push('/')
+        }
+    },
+    methods: {
+        ...mapActions([
+            'registerAccount',
+            'loginAccount'
+        ]),
+        registerUser: function () {
+            if (this.signupName === '' || this.signupEmail === '' || this.signupPassword === '') {
+
+                swal('Ooops ..', 'No empty field bruh!', 'error')
+                
+                this.signupName = ''
+                this.signupEmail = ''
+                this.signupPassword = ''
+                
+            } else if (this.signupPassword.length < 8) {
+
+                swal('Ooops ..', 'Password minimum 8 character!', 'error')
+                
+                this.signupName = ''
+                this.signupEmail = ''
+                this.signupPassword = ''
+
+            } else if (this.signupName.length < 3) {
+
+                swal('Ooops ..', 'Name minimum 3 character!', 'error')
+                
+                this.signupName = ''
+                this.signupEmail = ''
+                this.signupPassword = ''
+
+            } else {
+                let payload = {
+                    name: this.signupName,
+                    email: this.signupEmail,
+                    password: this.signupPassword
+                }
+
+
+                this.signupName = ''
+                this.signupEmail = ''
+                this.signupPassword = ''
+
+                this.$router.push('/')
+
+                this.registerAccount(payload)
+            }
+        },
+        loginUser: function () {
+            if (this.signinEmail === '' || this.signinPassword === '') {
+                swal('Ooops ..', 'No empty fielf bruh!', 'error')
+
+                this.signinEmail = ''
+                this.signinPassword = ''
+
+            } else {
+                let payload = {
+                    email: this.signinEmail,
+                    password: this.signinPassword
+                }
+
+                this.signinEmail = ''
+                this.signinPassword = ''
+
+                this.$router.push('/login')
+
+                this.loginAccount(payload)
+            }
+        }
     }
 }
 </script>
 
 <style>
-
+.blog-form-input {
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 300px;
+}
 </style>

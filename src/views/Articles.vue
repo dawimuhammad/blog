@@ -2,8 +2,7 @@
     <v-container fluid>
     <v-layout column>
     <v-flex>
-
-      <v-card>
+      <v-card flat>
         <v-container fluid grid-list-md>
           <v-layout row wrap>
             <!-- <v-flex v-for="card in cards" v-bind="{ [`xs${card.flex}`]: true }" :key="article.title"> -->
@@ -78,6 +77,10 @@ export default {
 
 .article-card {
     opacity: 0.9;
+}
+
+.article-card a {
+    text-decoration: none;
 }
 
 .article-title {
