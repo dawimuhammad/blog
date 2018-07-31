@@ -52,7 +52,6 @@ export default new Vuex.Store({
       },
       getCommentsByArticle ({ commit }, payload) {
         let url =`http://localhost:3000/articles/comment/${payload}`
-        console.log(url)
         axios.get(url)
         .then(function (response) {
           // console.log(response.data)
@@ -61,6 +60,28 @@ export default new Vuex.Store({
           .catch(function (err) {
             console.log(err)
           })
+      },
+      postCommentByArticle ({ commit, dispatch }, payload) {
+        // console.log(payload)
+        let articleId = payload.articleId
+
+        let url =`http://localhost:3000/articles/comment`
+        axios({
+          method: 'post',
+          url: url,
+          data: {
+            articleId: articleId,
+            commenterName: payload.commenterName,
+            commentContent: payload.commentContent
+          }
+        })
+        .then(function () {
+          dispatch('getCommentsByArticle', articleId)
+          commit('emptyCommit')
+        })
+        .catch(function (err) {
+            console.log(err)
+        })
       }
   }
 })

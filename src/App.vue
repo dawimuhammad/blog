@@ -7,7 +7,8 @@
         <div class="row py-2 justify-content-center">
               <div id="nav">
                 <router-link to="/">Home</router-link> |
-                <router-link to="/about">About</router-link>
+                <router-link to="/about">About</router-link> |
+                <router-link to="/login">Login</router-link>
               </div>
         </div>
     </div>
@@ -17,10 +18,14 @@
 
 <script>
 import Home from '@/views/Home.vue'
+import About from '@/views/About.vue'
+import Login from '@/views/Login.vue'
 
 export default {
   components: {
-    Home
+    Home,
+    About,
+    Login
   }
 }
 </script>
