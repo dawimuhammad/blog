@@ -138,7 +138,7 @@ export default {
                 this.signinEmail = ''
                 this.signinPassword = ''
 
-                this.$router.push('/login')
+                this.$router.push('/')
 
                 this.loginAccount(payload)
             }

@@ -8,7 +8,7 @@
               <div id="nav">
                 <v-spacer></v-spacer>
                 <router-link to="/">Home</router-link> |
-                <router-link v-if="isToken" to="/about">About</router-link> |
+                <router-link v-if="isToken" to="/about">About | </router-link>
                 <router-link v-if="!isToken" to="/login">Login</router-link>
                 <router-link v-if="isToken" to="/admin">Administrator</router-link>
                 <v-spacer></v-spacer>

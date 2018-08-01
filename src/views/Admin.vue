@@ -148,7 +148,12 @@ export default {
     }
   },
   created () {
-    this.getArticlesByAuthor()
+    if (localStorage.hasOwnProperty('token')) {
+        this.getArticlesByAuthor()
+    } else {
+        console.log('ga ada token, ga boleh masuk admin page')
+        this.$router.push('/')
+    }
   },
   computed: {
     ...mapState([

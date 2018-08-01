@@ -11,9 +11,9 @@
                 <router-link :to='`/article/${article._id}`'>
                   <v-card-media :src="article.imageUrl" height="300px" class="article-card">
                     <v-container fill-height fluid pa-5>
-                      <v-layout fill-height>
+                      <v-layout row>
                         <v-flex xs12 align-center flexbox>
-                          <span class="headline white--text text-xs-center article-title" v-text="article.title"></span>
+                            <span class="headline white--text text-xs-center article-title" v-text="article.title"></span>
                         </v-flex>
                       </v-layout>
                     </v-container>
@@ -21,15 +21,13 @@
                 </router-link>
 
                 <v-card-actions>
+                  <p>Created by {{ article.author.name }}</p>
                   <v-spacer></v-spacer>
-                  <v-btn icon>
-                    <v-icon>favorite</v-icon>
+                  <v-btn icon v-on:click="upvoteArticle">
+                    <v-icon>thumb_up_alt</v-icon>
                   </v-btn>
-                  <v-btn icon>
-                    <v-icon>bookmark</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                    <v-icon>share</v-icon>
+                  <v-btn icon v-on:click="downvoteArticle">
+                    <v-icon>thumb_down_alt</v-icon>
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -55,6 +53,24 @@ export default {
     ]),
     articleDetails(articleId) {
         swal('Test', `ini article id: ${articleId}`, 'success')
+    },
+    upvoteArticle: function () {
+      swal({
+        type: 'success',
+        title: 'Yeah ..',
+        text: 'Thank you for your appreciation!',
+        showConfirmButton: false,
+        timer: 1000
+      })
+    },
+    downvoteArticle: function () {
+      swal({
+        type: 'success',
+        title: 'Oh no ..',
+        text: 'We wish you have a good sense of reading ..',
+        showConfirmButton: false,
+        timer: 1000
+      })
     }
   },
   created () {
